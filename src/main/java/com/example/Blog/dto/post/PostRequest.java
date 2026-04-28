@@ -1,5 +1,7 @@
 package com.example.Blog.dto.post;
 
+// DTO (Data Transfer Object) for creating new posts
+// Purpose: Accepts only necessary fields from client, hides internal details
 public class PostRequest {
     private String title;
     private String content;

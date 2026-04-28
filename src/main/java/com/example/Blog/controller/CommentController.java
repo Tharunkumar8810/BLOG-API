@@ -19,7 +19,7 @@ public class CommentController {
     }
 
     // Create a new comment (or reply)
-    @PostMapping
+    @PostMapping        //same
     public CommentResponse create(@PathVariable Long postId,
                                   @RequestBody CommentRequest req,
                                   Principal principal) {
@@ -28,16 +28,37 @@ public class CommentController {
 
     // Get all comments for a post (nested)
     @GetMapping
-    public List<CommentResponse> getByPost(@PathVariable Long postId) {
+    public List<CommentResponse> getByPost(@PathVariable Long postId) {     //same
         return commentService.getByPost(postId);
     }
 
     // Delete a comment (only owner can delete)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")         //same
     public String delete(@PathVariable Long postId,
                          @PathVariable Long id,
                          Principal principal) {
         commentService.delete(id, principal.getName());
         return "Comment deleted successfully";
     }
+
+    // WITHOUT DTOs - SIMPLIFIED VERSION:
+    // @PostMapping
+    // public Comment create(@PathVariable Long postId,
+    //                      @RequestBody Comment comment,
+    //                      Principal principal) {
+    //     return commentService.create(postId, comment, principal.getName());
+    // }
+    //
+    // @GetMapping
+    // public List<Comment> getByPost(@PathVariable Long postId) {
+    //     return commentService.getByPost(postId);
+    // }
+    //
+    // @DeleteMapping("/{id}")
+    // public String delete(@PathVariable Long postId,
+    //                      @PathVariable Long id,
+    //                      Principal principal) {
+    //     commentService.delete(id, principal.getName());
+    //     return "Comment deleted successfully";
+    // }
 }

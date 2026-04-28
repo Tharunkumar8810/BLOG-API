@@ -26,7 +26,7 @@ public class CommentService {
         this.userRepo = userRepo;
     }
 
-    // Create comment (or reply)
+    // Create comment (or reply)  //same
     public CommentResponse create(Long postId, CommentRequest req, String username) {
         Users author = userRepo.findByUserName(username);
         Post post = postRepo.findById(postId)
@@ -56,7 +56,7 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
-    // Delete comment (only owner can delete)
+    // Delete comment (only owner can delete)  //same
     public void delete(Long id, String username) {
         Comment comment = commentRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
@@ -66,6 +66,38 @@ public class CommentService {
         }
         commentRepo.delete(comment);
     }
+
+    // WITHOUT DTOs - SIMPLIFIED VERSION:
+    // public Comment create(Long postId, Comment comment, String username) {
+    //     Users author = userRepo.findByUserName(username);
+    //     Post post = postRepo.findById(postId)
+    //             .orElseThrow(() -> new RuntimeException("Post not found"));
+    //
+    //     comment.setAuthor(author);
+    //     comment.setPost(post);
+    //
+    //     if (comment.getParent() != null) {
+    //         Comment parent = commentRepo.findById(comment.getParent().getId())
+    //                 .orElseThrow(() -> new RuntimeException("Parent comment not found"));
+    //         comment.setParent(parent);
+    //     }
+    //
+    //     return commentRepo.save(comment);
+    // }
+    //
+    // public List<Comment> getByPost(Long postId) {
+    //     return commentRepo.findByPostId(postId);
+    // }
+    //
+    // public void delete(Long id, String username) {
+    //     Comment comment = commentRepo.findById(id)
+    //             .orElseThrow(() -> new RuntimeException("Comment not found"));
+    //
+    //     if (!comment.getAuthor().getUserName().equals(username)) {
+    //         throw new RuntimeException("You can only delete your own comment");
+    //     }
+    //     commentRepo.delete(comment);
+    // }
 
     // Helper: map entity → response recursively
     private CommentResponse mapToResponse(Comment comment) {

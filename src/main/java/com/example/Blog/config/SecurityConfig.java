@@ -16,9 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-@Configuration
-@EnableWebSecurity
+//#1
+@Configuration      //custom configuration
+@EnableWebSecurity    // go with this config not by default config
 public class SecurityConfig {
 
     @Autowired
@@ -31,19 +31,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login").permitAll()
+                        .requestMatchers("/register", "/login","/public/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//we make the session statless to not use csrf
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
+        return http.build();    //returns the object of security filter chain
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {    //to change the authentication provider which is used to authenticate the user
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();  //DaoAuthenticationProvider is used to authenticate the user by using the user details service and password encoder and it is used because it extends authentication provider
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         provider.setUserDetailsService(userDetailsService);
         return provider;

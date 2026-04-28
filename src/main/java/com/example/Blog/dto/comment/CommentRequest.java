@@ -1,8 +1,11 @@
 package com.example.Blog.dto.comment;
 
+// DTO (Data Transfer Object) for creating comments and replies
+// Purpose: Accepts comment data from client
 public class CommentRequest {
-    private String body;
-    private Long parentId; // optional, for nested replies
+    private String body;      // The comment text content
+    private Long parentId;    // Optional - ID of parent comment (for nested replies)
+                             // null = new comment, not null = reply to existing comment
 
     // Getters and setters
     public String getBody() { return body; }

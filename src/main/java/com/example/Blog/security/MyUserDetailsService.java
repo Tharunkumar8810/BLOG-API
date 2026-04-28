@@ -5,7 +5,7 @@ import com.example.Blog.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
+//#2
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
